@@ -4,7 +4,7 @@ from typing import List
 import serial
 from struct import *
 
-MASTER_PACKET_FORMAT = "=BBHHHBH"
+MASTER_PACKET_FORMAT = "=BBhhhBh"
 PACKET_SIZE = calcsize(MASTER_PACKET_FORMAT)
 MAX_ROBOTS = 6
 
