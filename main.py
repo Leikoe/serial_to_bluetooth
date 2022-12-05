@@ -60,4 +60,3 @@ order_id: {order_id}
 
             state = 0
             pos = 0
-            print(temp)
