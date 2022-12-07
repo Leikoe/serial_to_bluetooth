@@ -3,10 +3,15 @@ from typing import List
 
 import serial
 from struct import *
+from robot import Robot
 
 MASTER_PACKET_FORMAT = "=BBhhhBh"
 PACKET_SIZE = calcsize(MASTER_PACKET_FORMAT)
-MAX_ROBOTS = 6
+
+# default is 6
+MAX_ROBOTS = input("MAX_ROBOTS (defaults to 6): \n")
+if MAX_ROBOTS == "":
+    MAX_ROBOTS = 6
 
 with serial.Serial('/dev/pts/0', 38400, timeout=1) as ser:
     com_robots: List[bytes] = [b''] * MAX_ROBOTS
