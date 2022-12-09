@@ -26,7 +26,7 @@ connection on each port and return a dictionary containing :
 """
 
 
-def setup_robot_connections(rsk_comm_ports: list[str]) -> dict[str, Robot]:
+def setup_robot_connections(rsk_comm_ports: list[str]) -> dict[int, Robot]:
     robots_connections: dict[str, Robot] = {}
     for comm_port in rsk_comm_ports:
         r = Robot('/dev/' + comm_port)
@@ -37,7 +37,7 @@ def setup_robot_connections(rsk_comm_ports: list[str]) -> dict[str, Robot]:
 
         # Ask user which ID he wants to name the little robot
         r_id = input('What ID do you want to the robot who just turned around ?')
-        robots_connections[r_id] = r
+        robots_connections[int(r_id)] = r
 
     return robots_connections
 

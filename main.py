@@ -73,11 +73,9 @@ with serial.Serial('/dev/pts/6', 38400, timeout=1) as ser:
 
 #                 """)
 
-            rid = str(rid)
             if rid in robots_connections:
                 robots_connections[rid].control(x_speed/1000.0, y_speed/1000.0, t_speed/1000.0)
-                if actions & (1 << 1) != 0 and last_kick + 1 < time.time():
-                    print("KICKING GGGGGG")
+                if actions & (1 << 1) != 0 and last_kick[rid] + 1 < time.time():
                     robots_connections[rid].kick(power=1)
                     last_kick[rid] = time.time()
 
