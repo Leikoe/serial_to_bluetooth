@@ -34,7 +34,7 @@ with serial.Serial('/dev/pts/4', 115200, timeout=1) as ser:
             print(robots_connections)
             if p.robot_id in robots_connections:
                 print("lol")
-                robots_connections[p.robot_id].control(p.normal_speed, 0, 0)
+                robots_connections[p.robot_id].control(p.normal_speed, p.tangential_speed, p.angular_speed)
                 # if actions & (1 << 1) != 0 and last_kick[rid] + 1 < time.time():
                 #     robots_connections[rid].kick(power=1)
                 #     last_kick[rid] = time.time()
