@@ -30,7 +30,7 @@ with serial.Serial('/dev/pts/4', 115200, timeout=1) as ser:
         try:
             p.ParseFromString(buffer)
 
-            if p.IsInitialized():
+            if p.HasField("robot_id") and p.HasField("normal_speed") and p.HasField("tangential_speed") and p.HasField("angular_speed"):
                 print(p)
                 print(p.robot_id)
                 if p.robot_id in robots_connections:
