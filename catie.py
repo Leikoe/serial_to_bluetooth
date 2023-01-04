@@ -20,28 +20,33 @@ robots_connections = setup_robot_connections(rsk_comm_ports)
 
 with serial.Serial('/dev/pts/4', 115200, timeout=1) as ser:
     buffer = b''
+    p = protocol_robot_catie_2022_pb2.IAToMainBoard()
 
     while True:
         c: bytes = ser.read()
         buffer += c
 
-        p = protocol_robot_catie_2022_pb2.IAToMainBoard()
+        
         try:
-            parsed = p.ParseFromString(buffer)
+            p.ParseFromString(buffer)
 
-            print(p)
-            print(p.robot_id)
-            print(robots_connections)
-            if p.robot_id in robots_connections:
-                print("lol")
-                robots_connections[p.robot_id].control(p.normal_speed, p.tangential_speed, p.angular_speed)
-                # if actions & (1 << 1) != 0 and last_kick[rid] + 1 < time.time():
-                #     robots_connections[rid].kick(power=1)
-                #     last_kick[rid] = time.time()
+            if p.IsInitialized():
+                print(p)
+                print(p.robot_id)
+                if p.robot_id in robots_connections:
+                    print(f"sent control({p.normal_speed}, {p.tangential_speed}, {p.angular_speed})")
+                    robots_connections[p.robot_id].control(p.normal_speed, p.tangential_speed, p.angular_speed)
+                    # if actions & (1 << 1) != 0 and last_kick[rid] + 1 < time.time():
+                    #     robots_connections[rid].kick(power=1)
+                    #     last_kick[rid] = time.time()
 
-            # print(p)
+                # print(p)
 
-            # reset buffer
-            buffer = b''
+                # reset buffer
+                buffer = b''
+                p.Clear()
+            else:
+                print(buffer)
         except:
-            print(buffer)
+            pass
+
