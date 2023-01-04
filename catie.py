@@ -16,9 +16,9 @@ last_kick = { _id: time.time() for _id in range(MAX_ROBOTS) }
 
 rsk_comm_ports = get_rsk_comm_ports()
 robots_connections = setup_robot_connections(rsk_comm_ports)
-user_turns_robot(robots_connections)
+#user_turns_robot(robots_connections)
 
-with serial.Serial('/dev/ttys001', 115200, timeout=1) as ser:
+with serial.Serial('/dev/pts/4', 115200, timeout=1) as ser:
     buffer = b''
 
     while True:
@@ -30,8 +30,11 @@ with serial.Serial('/dev/ttys001', 115200, timeout=1) as ser:
             parsed = p.ParseFromString(buffer)
 
             print(p)
+            print(p.robot_id)
+            print(robots_connections)
             if p.robot_id in robots_connections:
-                robots_connections[p.robot_id].control(p.normal_speed / 1000.0, 0 / 1000.0, 0 / 1000.0)
+                print("lol")
+                robots_connections[p.robot_id].control(p.normal_speed, 0, 0)
                 # if actions & (1 << 1) != 0 and last_kick[rid] + 1 < time.time():
                 #     robots_connections[rid].kick(power=1)
                 #     last_kick[rid] = time.time()
